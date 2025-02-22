@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>celestia.types.common_types &mdash; pyCelestia  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyCelestia
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Api Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../node_api.html">Celestia Node API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Types:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../types.html">Celestia types</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyCelestia</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">celestia.types.common_types</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for celestia.types.common_types</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">t</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">base64</span><span class="w"> </span><span class="kn">import</span> <span class="n">b64decode</span><span class="p">,</span> <span class="n">b64encode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">celestia._celestia</span><span class="w"> </span><span class="kn">import</span> <span class="n">types</span> <span class="k">as</span> <span class="n">ext</span>  <span class="c1"># noqa</span>
+
+
+<div class="viewcode-block" id="Base64">
+<a class="viewcode-back" href="../../../types.html#celestia.types.common_types.Base64">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Base64</span><span class="p">(</span><span class="nb">bytes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Represents a byte string that supports Base64 encoding and decoding.</span>
+
+<span class="sd">    This class ensures that the stored data is always in bytes and provides</span>
+<span class="sd">    Base64 encoding/decoding when converting to and from strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">b64decode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">b64encode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Base64.ensure_type">
+<a class="viewcode-back" href="../../../types.html#celestia.types.common_types.Base64.ensure_type">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ensure_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Ensures the value is an instance of Base64.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (str | bytes | Base64): The value to convert.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Base64: A valid Base64 instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Namespace">
+<a class="viewcode-back" href="../../../types.html#celestia.types.common_types.Namespace">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Namespace</span><span class="p">(</span><span class="n">Base64</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Represents a Celestia namespace.</span>
+
+<span class="sd">    A namespace is a unique identifier for blobs stored on the Celestia network.</span>
+<span class="sd">    It is used to segregate data based on different applications or use cases.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">ext</span><span class="o">.</span><span class="n">normalize_namespace</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Commitment">
+<a class="viewcode-back" href="../../../types.html#celestia.types.common_types.Commitment">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Commitment</span><span class="p">(</span><span class="n">Base64</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Represents a Celestia blob commitment.</span>
+
+<span class="sd">    A commitment is a cryptographic proof that ensures data integrity and allows</span>
+<span class="sd">    verification of whether a blob has been correctly included in a block.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Blob">
+<a class="viewcode-back" href="../../../types.html#celestia.types.common_types.Blob">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Blob</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Represents a Celestia blob.</span>
+
+<span class="sd">    A blob is a chunk of data stored on Celestia. Each blob is associated with</span>
+<span class="sd">    a namespace and a cryptographic commitment to ensure data integrity.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        namespace (Namespace): The namespace under which the blob is stored.</span>
+<span class="sd">        data (Base64): The actual blob data.</span>
+<span class="sd">        commitment (Commitment): The cryptographic commitment for the blob.</span>
+<span class="sd">        share_version (int): The version of the share encoding used.</span>
+<span class="sd">        index (int | None): The index of the blob in the block (optional).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">namespace</span><span class="p">:</span> <span class="n">Namespace</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Base64</span>
+    <span class="n">commitment</span><span class="p">:</span> <span class="n">Commitment</span>
+    <span class="n">share_version</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="n">Namespace</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Base64</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span>
+                 <span class="n">commitment</span><span class="p">:</span> <span class="n">Commitment</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">share_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span> <span class="o">=</span> <span class="n">Namespace</span><span class="o">.</span><span class="n">ensure_type</span><span class="p">(</span><span class="n">namespace</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="n">ensure_type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">commitment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">commitment</span> <span class="o">=</span> <span class="n">Commitment</span><span class="o">.</span><span class="n">ensure_type</span><span class="p">(</span><span class="n">commitment</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">share_version</span> <span class="o">=</span> <span class="n">share_version</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="n">ext</span><span class="o">.</span><span class="n">normalize_blob</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">commitment</span> <span class="o">=</span> <span class="n">Commitment</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;commitment&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">share_version</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;share_version&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+
+<div class="viewcode-block" id="Blob.deserializer">
+<a class="viewcode-back" href="../../../types.html#celestia.types.common_types.Blob.deserializer">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">deserializer</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Blob&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Deserializes a dictionary into a Blob object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            result: The dictionary representation of a Blob.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A deserialized Blob object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Blob</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TxConfig">
+<a class="viewcode-back" href="../../../types.html#celestia.types.common_types.TxConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TxConfig</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Represents a transaction configuration for submitting transactions to Celestia.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        signer_address (str | None): The address of the transaction signer.</span>
+<span class="sd">        is_gas_price_set (bool | None): Whether a custom gas price is set.</span>
+<span class="sd">        key_name (str | None): The name of the key used for signing.</span>
+<span class="sd">        gas_price (float | None): The gas price for the transaction.</span>
+<span class="sd">        gas (int | None): The amount of gas to use.</span>
+<span class="sd">        fee_granter_address (str | None): Address of the fee granter (if applicable).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">signer_address</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">is_gas_price_set</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">key_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">gas_price</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">gas</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">fee_granter_address</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Alesh, Tnmoxa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
